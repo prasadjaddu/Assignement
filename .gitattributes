@@ -1,2 +1,130 @@
-# Auto detect text files and perform LF normalization
-* text=auto
+/******************************************************************************
+
+                            Online C# Compiler.
+                Code, Compile, Run and Debug C# program online.
+Write your code in this editor and press "Run" button to execute it.
+
+*******************************************************************************/
+
+using System;
+using System.Collections.Generic;
+
+class Item
+{
+    public int ID { get; }
+    public string Name { get; set; }
+    public decimal Price { get; set; }
+    public int Quantity { get; set; }
+
+    public Item(int id, string name, decimal price, int quantity)
+    {
+        ID = id;
+        Name = name;
+        Price = price;
+        Quantity = quantity;
+    }
+
+    public override string ToString()
+    {
+        return $"ID: {ID}, Name: {Name}, Price: {Price:C}, Quantity: {Quantity}";
+    }
+}
+
+class Inventory
+{
+    private List<Item> items;
+
+    public Inventory()
+    {
+        items = new List<Item>();
+    }
+
+    public void AddItem(Item item)
+    {
+        items.Add(item);
+    }
+
+    public void DisplayAllItems()
+    {
+        Console.WriteLine("All Items:");
+        foreach (var item in items)
+        {
+            Console.WriteLine(item);
+        }
+    }
+
+    public Item FindItemByID(int id)
+    {
+        return items.Find(item => item.ID == id);
+    }
+
+    public void UpdateItem(int id, string name, decimal price, int quantity)
+    {
+        Item item = FindItemByID(id);
+        if (item != null)
+        {
+            item.Name = name;
+            item.Price = price;
+            item.Quantity = quantity;
+            Console.WriteLine("Item updated successfully.");
+        }
+        else
+        {
+            Console.WriteLine("Item not found!");
+        }
+    }
+
+    public void DeleteItem(int id)
+    {
+        Item item = FindItemByID(id);
+        if (item != null)
+        {
+            items.Remove(item);
+            Console.WriteLine("Item deleted successfully.");
+        }
+        else
+        {
+            Console.WriteLine("Item not found!");
+        }
+    }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        Inventory inventory = new Inventory();
+
+        // Adding sample items
+        inventory.AddItem(new Item(1, "Laptop", 999.99m, 10));
+        inventory.AddItem(new Item(2, "Mouse", 19.99m, 50));
+        inventory.AddItem(new Item(3, "Keyboard", 49.99m, 30));
+
+        // Display all items
+        inventory.DisplayAllItems();
+
+        // Find item by ID
+        Item foundItem = inventory.FindItemByID(2);
+        if (foundItem != null)
+        {
+            Console.WriteLine("\nFound Item:");
+            Console.WriteLine(foundItem);
+        }
+        else
+        {
+            Console.WriteLine("\nItem not found!");
+        }
+
+        // Update item
+        inventory.UpdateItem(2, "Gaming Mouse", 29.99m, 40);
+
+        // Display all items after update
+        inventory.DisplayAllItems();
+
+        // Delete item
+        inventory.DeleteItem(3);
+
+        // Display all items after deletion
+        inventory.DisplayAllItems();
+    }
+}
